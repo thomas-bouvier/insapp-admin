@@ -1,4 +1,4 @@
-import { AUTH_LOGIN } from 'react-admin';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_CHECK } from 'react-admin';
 
 export default (type, params) => {
   if (type === AUTH_LOGIN) {
@@ -23,5 +23,27 @@ export default (type, params) => {
         localStorage.setItem('master', master);
         localStorage.setItem('associationID', associationID);
       });
+  }
+
+  if (type === AUTH_LOGOUT) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('master');
+    localStorage.removeItem('associationID');
+    return Promise.resolve();
+  }
+
+  if (type === AUTH_ERROR) {
+    const status = params.status;
+    if (status === 401 || status === 403) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('master');
+      localStorage.removeItem('associationID');
+      return Promise.reject();
+    }
+    return Promise.resolve();
+  }
+
+  if (type === AUTH_CHECK) {
+    return localStorage.getItem('token') ? Promise.resolve() : Promise.reject();
   }
 };
