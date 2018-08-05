@@ -101,8 +101,13 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
           data: json.map(record => ({ id: record.ID, ...record })),
           total: 10
         };
+
+      case GET_ONE:
+        return { data: { ...json, id: json.ID } };
+
       case CREATE:
         return { data: { ...params.data, id: json.id } };
+
       default:
         return { data: json };
     }
