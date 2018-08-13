@@ -44,12 +44,20 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
       case CREATE:
         url = `${apiUrl}/${resource}`;
         options.method = 'POST';
+        params.data = {
+          ...params.data,
+          association: localStorage.getItem('associationID')
+        };
         options.body = JSON.stringify(params.data);
         break;
 
       case UPDATE:
         url = `${apiUrl}/${resource}/${params.id}`;
         options.method = 'PUT';
+        params.data = {
+          ...params.data,
+          association: localStorage.getItem('associationID')
+        };
         options.body = JSON.stringify(params.data);
         break;
 
@@ -102,14 +110,8 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
           total: 10
         };
 
-      case GET_ONE:
-        return { data: { ...json, id: json.ID } };
-
-      case CREATE:
-        return { data: { ...params.data, id: json.id } };
-
       default:
-        return { data: json };
+        return { data: { ...json, id: json.ID } };
     }
   };
 
@@ -121,8 +123,10 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
    */
   return (type, resource, params) => {
     const { url, options } = convertDataRequestToHTTP(type, resource, params);
+
     const token = localStorage.getItem('token');
     const request = `${url}?token=${token}`;
+
     return httpClient(request, options).then(response =>
       convertHTTPResponse(response, type, resource, params)
     );

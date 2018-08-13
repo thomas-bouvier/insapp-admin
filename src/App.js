@@ -8,6 +8,7 @@ import PostIcon from '@material-ui/icons/Book';
 
 import AuthProvider from './AuthProvider';
 import DataProvider from './DataProvider';
+import UploadFeature from './UploadFeature';
 
 import { PostShow, PostList, PostEdit, PostCreate } from './posts';
 import { EventShow, EventList, EventEdit, EventCreate } from './events';
@@ -32,10 +33,13 @@ const theme = createMuiTheme({
   }
 });
 
+const dataProvider = DataProvider('https://insapp.insa-rennes.fr/api/v1');
+const uploadCapableDataProvider = UploadFeature(dataProvider);
+
 const App = () => (
   <Admin
     authProvider={AuthProvider}
-    dataProvider={DataProvider('https://insapp.insa-rennes.fr/api/v1')}
+    dataProvider={uploadCapableDataProvider}
     title="Insapp"
     theme={theme}
   >
