@@ -1,34 +1,48 @@
 import Axios from 'axios';
 
-const UploadFeature = requestHandler => (type, resource, params) => {
-  if (type === 'CREATE' && resource === 'posts') {
-    if (params.data.image) {
-      const formData = new FormData();
-      formData.append('file', params.data.image.rawFile);
+const uploadImage = file =>
+  new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('file', file);
 
-      Axios.post(
-        `https://insapp.insa-rennes.fr/api/v1/images?token=${localStorage.getItem(
-          'token'
-        )}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+    return Axios.post(
+      `https://insapp.insa-rennes.fr/api/v1/images?token=${localStorage.getItem(
+        'token'
+      )}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      ).then(response => {
-        if (response.status < 200 || response.status >= 300) {
-          throw new Error(response.statusText);
-        }
-        return requestHandler(type, resource, {
-          ...params,
-          data: {
-            ...params.data,
-            image: response.data.file,
-            imageSize: response.data.size
-          }
-        });
-      });
+      }
+    ).then(response => {
+      if (response.status < 200 || response.status >= 300) {
+        reject(new Error(response.statusText));
+      }
+      resolve(response);
+    });
+  });
+
+const UploadFeature = requestHandler => (type, resource, params) => {
+  if (resource === 'posts') {
+    if (type === 'CREATE' || type === 'UPDATE') {
+      if (params.data.image && params.data.image.rawFile instanceof File) {
+        return Promise.all([uploadImage(params.data.image.rawFile)])
+          .then(res => ({
+            file: res[0].data.file,
+            size: res[0].data.size
+          }))
+          .then(ret =>
+            requestHandler(type, resource, {
+              ...params,
+              data: {
+                ...params.data,
+                image: ret.file,
+                imageSize: ret.size
+              }
+            })
+          );
+      }
     }
   }
 

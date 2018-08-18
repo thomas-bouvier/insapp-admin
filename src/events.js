@@ -7,14 +7,14 @@ import {
   SimpleShowLayout,
   Show,
   DateField,
-  RichTextField,
+  ImageField,
   Edit,
   SimpleForm,
+  LongTextInput,
   TextInput,
   EditButton,
   Create
 } from 'react-admin';
-import RichTextInput from 'ra-input-rich-text';
 
 const EventTitle = ({ record }) => {
   return <span>{record ? `${record.name}` : ''}</span>;
@@ -23,8 +23,9 @@ const EventTitle = ({ record }) => {
 export const EventShow = props => (
   <Show title={<EventTitle />} {...props}>
     <SimpleShowLayout>
+      <ImageField source="image" title="name" />
       <TextField source="name" />
-      <RichTextField source="description" />
+      <TextField source="description" />
       <DateField label="Start date" source="dateStart" />
       <DateField label="End date" source="dateEnd" />
     </SimpleShowLayout>
@@ -48,8 +49,8 @@ export const EventList = props => (
 export const EventCreate = props => (
   <Create {...props}>
     <SimpleForm>
-      <TextInput source="title" />
-      <RichTextInput source="body" />
+      <TextInput label="Title" source="name" />
+      <LongTextInput label="Description" source="description" />
     </SimpleForm>
   </Create>
 );
@@ -57,8 +58,8 @@ export const EventCreate = props => (
 export const EventEdit = props => (
   <Edit title={<EventTitle />} {...props}>
     <SimpleForm>
-      <TextInput label="title" source="name" />
-      <RichTextInput label="Description" source="description" />
+      <TextInput label="Title" source="name" />
+      <LongTextInput label="Description" source="description" />
     </SimpleForm>
   </Edit>
 );

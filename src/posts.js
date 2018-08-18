@@ -5,8 +5,6 @@ import {
   TextField,
   Show,
   SimpleShowLayout,
-  DateField,
-  RichTextField,
   ShowButton,
   Edit,
   SimpleForm,
@@ -19,7 +17,6 @@ import {
   CheckboxGroupInput,
   LongTextInput
 } from 'react-admin';
-import RichTextInput from 'ra-input-rich-text';
 
 const PostTitle = ({ record }) => {
   return <span>{record ? `${record.title}` : ''}</span>;
@@ -28,9 +25,9 @@ const PostTitle = ({ record }) => {
 export const PostShow = props => (
   <Show title={<PostTitle />} {...props}>
     <SimpleShowLayout>
+      <ImageField source="image_cdn" title="title" />
       <TextField source="title" />
-      <RichTextField source="description" />
-      <DateField label="Publication date" source="date" />
+      <TextField source="description" />
     </SimpleShowLayout>
   </Show>
 );
@@ -53,7 +50,7 @@ export const PostCreate = props => (
   <Create {...props}>
     <SimpleForm>
       <ImageInput source="image" label="Related pictures" accept="image/*">
-        <ImageField source="src" title="title" />
+        <ImageField source="image" title="title" />
       </ImageInput>
       <TextInput source="title" />
       <LongTextInput source="description" />
@@ -99,8 +96,9 @@ export const PostEdit = props => (
   <Edit title={<PostTitle />} {...props}>
     <SimpleForm>
       <ImageInput source="image" label="Related pictures" accept="image/*">
-        <ImageField source="src" title="title" />
+        <ImageField source="image" title="title" />
       </ImageInput>
+      <ImageField source="image_cdn" title="title" />
       <TextInput label="title" source="title" />
       <LongTextInput label="Description" source="description" />
       <CheckboxGroupInput

@@ -28,6 +28,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
         Accept: 'application/json'
       })
     };
+
     switch (type) {
       case GET_LIST: {
         url = `${apiUrl}/associations/${
@@ -75,6 +76,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
         //url = `${apiUrl}/associations/${params.associationID}/${resource}`;
         break;
       }
+
       default:
         throw new Error(`Unsupported Data Provider request type ${type}`);
     }
@@ -90,6 +92,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
    * @returns {Object} Data response
    */
   const convertHTTPResponse = (response, type, resource, params) => {
+    // eslint-disable-next-line
     const { headers, json } = response;
     switch (type) {
       case GET_LIST:
@@ -110,8 +113,22 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
           total: 10
         };
 
+      case GET_ONE:
+        return {
+          data: {
+            ...json,
+            id: json.ID,
+            image_cdn: 'https://insapp.insa-rennes.fr/cdn/' + json.image
+          }
+        };
+
       default:
-        return { data: { ...json, id: json.ID } };
+        return {
+          data: {
+            ...json,
+            id: json.ID
+          }
+        };
     }
   };
 
