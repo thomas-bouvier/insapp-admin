@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^1.5.1",
+    "@material-ui/icons": "^2.0.3",
     "axios": "^0.18.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
+    "material-ui-datetimepicker": "^1.0.7",
+    "material-ui-pickers": "^1.0.0-rc.13",
     "prettier": "^1.14.0",
     "ra-data-json-server": "^2.2.0",
     "ra-input-rich-text": "^2.2.0",

@@ -6,6 +6,7 @@ import red from '@material-ui/core/colors/red';
 import grey from '@material-ui/core/colors/grey';
 import PostIcon from '@material-ui/icons/Book';
 
+import Dashboard from './Dashboard';
 import AuthProvider from './AuthProvider';
 import DataProvider from './DataProvider';
 import UploadFeature from './UploadFeature';
@@ -38,6 +39,7 @@ const uploadCapableDataProvider = UploadFeature(dataProvider);
 
 const App = () => (
   <Admin
+    dashboard={Dashboard}
     authProvider={AuthProvider}
     dataProvider={uploadCapableDataProvider}
     title="Insapp"

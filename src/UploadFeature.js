@@ -24,8 +24,26 @@ const uploadImage = file =>
   });
 
 const UploadFeature = requestHandler => (type, resource, params) => {
-  if (resource === 'posts') {
-    if (type === 'CREATE' || type === 'UPDATE') {
+  if (type === 'CREATE' || type === 'UPDATE') {
+    if (resource === 'posts') {
+      if (params.data.image && params.data.image.rawFile instanceof File) {
+        return Promise.all([uploadImage(params.data.image.rawFile)])
+          .then(res => ({
+            file: res[0].data.file,
+            size: res[0].data.size
+          }))
+          .then(ret =>
+            requestHandler(type, resource, {
+              ...params,
+              data: {
+                ...params.data,
+                image: ret.file,
+                imageSize: ret.size
+              }
+            })
+          );
+      }
+    } else if (resource === 'events') {
       if (params.data.image && params.data.image.rawFile instanceof File) {
         return Promise.all([uploadImage(params.data.image.rawFile)])
           .then(res => ({

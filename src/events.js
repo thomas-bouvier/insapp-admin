@@ -13,7 +13,8 @@ import {
   LongTextInput,
   TextInput,
   EditButton,
-  Create
+  Create,
+  ImageInput
 } from 'react-admin';
 
 const EventTitle = ({ record }) => {
@@ -23,7 +24,7 @@ const EventTitle = ({ record }) => {
 export const EventShow = props => (
   <Show title={<EventTitle />} {...props}>
     <SimpleShowLayout>
-      <ImageField source="image" title="name" />
+      <ImageField source="image_cdn" title="name" />
       <TextField source="name" />
       <TextField source="description" />
       <DateField label="Start date" source="dateStart" />
@@ -49,6 +50,9 @@ export const EventList = props => (
 export const EventCreate = props => (
   <Create {...props}>
     <SimpleForm>
+      <ImageInput source="image" label="Related pictures" accept="image/*">
+        <ImageField source="image" title="title" />
+      </ImageInput>
       <TextInput label="Title" source="name" />
       <LongTextInput label="Description" source="description" />
     </SimpleForm>
