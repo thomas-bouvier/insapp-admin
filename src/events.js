@@ -16,6 +16,7 @@ import {
   Create,
   ImageInput
 } from 'react-admin';
+import { DateTimeInput } from 'react-admin-date-inputs';
 
 const EventTitle = ({ record }) => {
   return <span>{record ? `${record.name}` : ''}</span>;
@@ -27,8 +28,8 @@ export const EventShow = props => (
       <ImageField source="image_cdn" title="name" />
       <TextField source="name" />
       <TextField source="description" />
-      <DateField label="Start date" source="dateStart" />
-      <DateField label="End date" source="dateEnd" />
+      <DateField label="Start date" source="dateStart" showTime />
+      <DateField label="End date" source="dateEnd" showTime />
     </SimpleShowLayout>
   </Show>
 );
@@ -55,6 +56,16 @@ export const EventCreate = props => (
       </ImageInput>
       <TextInput label="Title" source="name" />
       <LongTextInput label="Description" source="description" />
+      <DateTimeInput
+        label="Start date"
+        source="dateStart"
+        options={{ format: 'dd/MM/YYYY à HH:mm', ampm: false, clearable: true }}
+      />
+      <DateTimeInput
+        label="End date"
+        source="dateEnd"
+        options={{ format: 'dd/MM/YYYY à HH:mm', ampm: false, clearable: true }}
+      />
     </SimpleForm>
   </Create>
 );
@@ -64,6 +75,16 @@ export const EventEdit = props => (
     <SimpleForm>
       <TextInput label="Title" source="name" />
       <LongTextInput label="Description" source="description" />
+      <DateTimeInput
+        label="Start date"
+        source="dateStart"
+        options={{ format: 'dd/MM/YYYY à HH:mm', ampm: false, clearable: true }}
+      />
+      <DateTimeInput
+        label="End date"
+        source="dateEnd"
+        options={{ format: 'dd/MM/YYYY à HH:mm', ampm: false, clearable: true }}
+      />
     </SimpleForm>
   </Edit>
 );
