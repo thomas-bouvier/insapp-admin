@@ -22,6 +22,9 @@ import {
 } from 'react-admin';
 import PromotionPicker from './PromotionPicker';
 
+const titleMaxLength = 25;
+const descriptionMaxLength = 700;
+
 const PostTitle = ({ record }) => {
   return <span>{record ? `${record.title}` : ''}</span>;
 };
@@ -61,12 +64,15 @@ export const PostList = props => (
 
 export const PostCreate = props => (
   <Create {...props}>
-    <SimpleForm>
+    <SimpleForm validate={validatePostCreation}>
       <ImageInput source="image" label="Related pictures" accept="image/*">
         <ImageField source="image" title="title" />
       </ImageInput>
-      <TextInput source="title" />
-      <LongTextInput source="description" />
+      <TextInput source="title" inputProps={{ maxLength: titleMaxLength }} />
+      <LongTextInput
+        source="description"
+        inputProps={{ maxLength: descriptionMaxLength }}
+      />
       <PromotionPicker />
       <BooleanInput
         label="Receive an email when a user comments this post"
@@ -84,8 +90,16 @@ export const PostEdit = props => (
           <ImageField source="image" title="title" />
         </ImageInput>
         <ImageField source="image_cdn" title="title" />
-        <TextInput label="title" source="title" />
-        <LongTextInput label="Description" source="description" />
+        <TextInput
+          label="title"
+          source="title"
+          inputProps={{ maxLength: titleMaxLength }}
+        />
+        <LongTextInput
+          label="Description"
+          source="description"
+          inputProps={{ maxLength: descriptionMaxLength }}
+        />
         <PromotionPicker />
         <BooleanInput
           label="Receive an email when a user comments this post"
@@ -103,3 +117,20 @@ export const PostEdit = props => (
     </TabbedForm>
   </Edit>
 );
+
+const validatePostCreation = values => {
+  const errors = {};
+  if (!values.title) {
+    errors.title = ['The title is required'];
+  } else if (values.title.length > titleMaxLength) {
+    errors.title = [`The title is limited to ${titleMaxLength} characters`];
+  }
+  if (!values.description) {
+    errors.description = ['The description is required'];
+  } else if (values.description.length > descriptionMaxLength) {
+    errors.description = [
+      `The title is limited to ${descriptionMaxLength} characters`
+    ];
+  }
+  return errors;
+};
