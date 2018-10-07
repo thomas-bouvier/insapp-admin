@@ -14,7 +14,9 @@ import {
   TextInput,
   EditButton,
   Create,
-  ImageInput
+  ImageInput,
+  BooleanInput,
+  FunctionField
 } from 'react-admin';
 import { DateTimeInput } from 'react-admin-date-inputs';
 
@@ -41,7 +43,30 @@ export const EventList = props => (
   >
     <Datagrid>
       <TextField source="name" />
-      <TextField source="description" />
+      <DateField source="dateStart" showTime />
+      <DateField source="dateEnd" showTime />
+      <FunctionField
+        label="I'm going"
+        render={record =>
+          record.participants != null ? record.participants.length : 0
+        }
+      />
+      <FunctionField
+        label="Maybe"
+        render={record => (record.maybe != null ? record.maybe.length : 0)}
+      />
+      <FunctionField
+        label="I'm not going"
+        render={record =>
+          record.notgoing != null ? record.notgoing.length : 0
+        }
+      />
+      <FunctionField
+        label="Comments"
+        render={record =>
+          record.comments != null ? record.comments.length : 0
+        }
+      />
       <ShowButton />
       <EditButton />
     </Datagrid>
@@ -66,6 +91,10 @@ export const EventCreate = props => (
         source="dateEnd"
         options={{ format: 'dd/MM/YYYY à HH:mm', ampm: false, clearable: true }}
       />
+      <BooleanInput
+        label="Receive an email when a user comments this post"
+        source="nonotification"
+      />
     </SimpleForm>
   </Create>
 );
@@ -84,6 +113,10 @@ export const EventEdit = props => (
         label="End date"
         source="dateEnd"
         options={{ format: 'dd/MM/YYYY à HH:mm', ampm: false, clearable: true }}
+      />
+      <BooleanInput
+        label="Receive an email when a user comments this post"
+        source="nonotification"
       />
     </SimpleForm>
   </Edit>

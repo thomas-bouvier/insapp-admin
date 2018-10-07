@@ -14,7 +14,11 @@ import {
   ImageInput,
   ImageField,
   BooleanInput,
-  LongTextInput
+  LongTextInput,
+  TabbedForm,
+  FormTab,
+  ReferenceManyField,
+  FunctionField
 } from 'react-admin';
 import PromotionPicker from './PromotionPicker';
 
@@ -39,7 +43,16 @@ export const PostList = props => (
   >
     <Datagrid>
       <TextField source="title" />
-      <TextField source="description" />
+      <FunctionField
+        label="Likes"
+        render={record => (record.likes != null ? record.likes.length : 0)}
+      />
+      <FunctionField
+        label="Comments"
+        render={record =>
+          record.comments != null ? record.comments.length : 0
+        }
+      />
       <ShowButton />
       <EditButton />
     </Datagrid>
@@ -65,18 +78,28 @@ export const PostCreate = props => (
 
 export const PostEdit = props => (
   <Edit title={<PostTitle />} {...props}>
-    <SimpleForm>
-      <ImageInput source="image" label="Related pictures" accept="image/*">
-        <ImageField source="image" title="title" />
-      </ImageInput>
-      <ImageField source="image_cdn" title="title" />
-      <TextInput label="title" source="title" />
-      <LongTextInput label="Description" source="description" />
-      <PromotionPicker />
-      <BooleanInput
-        label="Receive an email when a user comments this post"
-        source="nonotification"
-      />
-    </SimpleForm>
+    <TabbedForm>
+      <FormTab label="content">
+        <ImageInput source="image" label="Related pictures" accept="image/*">
+          <ImageField source="image" title="title" />
+        </ImageInput>
+        <ImageField source="image_cdn" title="title" />
+        <TextInput label="title" source="title" />
+        <LongTextInput label="Description" source="description" />
+        <PromotionPicker />
+        <BooleanInput
+          label="Receive an email when a user comments this post"
+          source="nonotification"
+        />
+      </FormTab>
+      <FormTab label="comments">
+        <ReferenceManyField source="comments" addLabel={false}>
+          <Datagrid>
+            <TextField source="content" />
+            <EditButton />
+          </Datagrid>
+        </ReferenceManyField>
+      </FormTab>
+    </TabbedForm>
   </Edit>
 );
