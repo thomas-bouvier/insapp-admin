@@ -73,7 +73,7 @@ export const PostCreate = props => (
         source="description"
         inputProps={{ maxLength: descriptionMaxLength }}
       />
-      <PromotionPicker />
+      <PromotionPicker source="promotions" />
       <BooleanInput
         label="Receive an email when a user comments this post"
         source="nonotification"
@@ -100,7 +100,7 @@ export const PostEdit = props => (
           source="description"
           inputProps={{ maxLength: descriptionMaxLength }}
         />
-        <PromotionPicker />
+        <PromotionPicker source="promotions" />
         <BooleanInput
           label="Receive an email when a user comments this post"
           source="nonotification"
