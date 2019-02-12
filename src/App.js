@@ -34,7 +34,7 @@ const theme = createMuiTheme({
   }
 });
 
-const dataProvider = DataProvider('https://insapp.insa-rennes.fr/api/v1');
+const dataProvider = DataProvider('http://localhost:9000');
 const uploadCapableDataProvider = UploadFeature(dataProvider);
 
 const App = () => (

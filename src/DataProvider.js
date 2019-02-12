@@ -118,7 +118,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
           data: {
             ...json,
             id: json.ID,
-            image_cdn: 'https://insapp.insa-rennes.fr/cdn/' + json.image
+            image_cdn: './cdn/' + json.image
           }
         };
 

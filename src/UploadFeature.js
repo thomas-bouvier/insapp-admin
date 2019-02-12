@@ -6,9 +6,7 @@ const uploadImage = file =>
     formData.append('file', file);
 
     return Axios.post(
-      `https://insapp.insa-rennes.fr/api/v1/images?token=${localStorage.getItem(
-        'token'
-      )}`,
+      `http://localhost:9000/images?token=${localStorage.getItem('token')}`,
       formData,
       {
         headers: {
